@@ -84848,6 +84848,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moving: 0
+  attacking: 0
+  rolling: 0
 --- !u!61 &1658433777
 BoxCollider2D:
   m_ObjectHideFlags: 0
