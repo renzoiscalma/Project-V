@@ -22,7 +22,7 @@ public class PlayerRollCallbacks : StateMachineBehaviour
   override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
   {
     var PlayerMove = animator.transform.parent.gameObject.GetComponent<PlayerMove>();
-    PlayerMove.SetHitbox(false);
+    PlayerMove.SetHitbox(true);
     PlayerMove.SetRolling(false);
   }
 

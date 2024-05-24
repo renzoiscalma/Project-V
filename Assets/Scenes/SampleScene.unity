@@ -42045,7 +42045,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -52888,7 +52888,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1658433773}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 7
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -84868,6 +84868,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   attackSpeed: 1
+  rollForce: 10
 --- !u!50 &1658433775
 Rigidbody2D:
   serializedVersion: 4
@@ -84985,7 +84986,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1782951679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85000,8 +85001,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 297490854627167561, guid: 5668310c429c4a24d92e99e03be827c2, type: 3}
   spawnArea: {x: 0, y: 0}
-  spawnTimer: 1
+  spawnTimer: 10
   chaseTarget: {fileID: 1658433773}
+  cmCam: {fileID: 1251355963}
+  cameraOffset: 10
 --- !u!4 &1782951680
 Transform:
   m_ObjectHideFlags: 0
@@ -85041,7 +85044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1906417577}
   - component: {fileID: 1906417579}
-  - component: {fileID: 1906417578}
+  - component: {fileID: 1906417580}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -85064,7 +85067,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1251355964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1906417578
+--- !u!114 &1906417579
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906417576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1906417580
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85107,18 +85122,6 @@ MonoBehaviour:
   m_MaximumFOV: 60
   m_MinimumOrthoSize: 1
   m_MaximumOrthoSize: 5000
---- !u!114 &1906417579
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1906417576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1945855018
 PrefabInstance:
   m_ObjectHideFlags: 0

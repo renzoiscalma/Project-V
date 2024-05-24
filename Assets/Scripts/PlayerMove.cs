@@ -79,7 +79,6 @@ public class PlayerMove : MonoBehaviour
     }
     if (rolling)
     {
-      Debug.Log(facingRight);
       facingRight = rollVelocity.x > 0;
       rgbd2d.velocity = rollVelocity * rollForce;
     }
