@@ -8,16 +8,23 @@ public class Animate : MonoBehaviour
   public bool moving;
   public bool attacking;
   public bool rolling;
+  private PlayerMove playerMove;
   private void Awake()
   {
     animator = GetComponentInChildren<Animator>();
+    playerMove = transform.GetComponent<PlayerMove>();
   }
 
   private void Update()
   {
     animator.SetBool("moving", moving);
     animator.SetBool("attacking", attacking);
-    animator.SetBool("rolling", rolling);
+  }
+
+  public void Roll()
+  {
+    animator.SetTrigger("rolling");
+    playerMove.SetRolling(true);
   }
 
 }

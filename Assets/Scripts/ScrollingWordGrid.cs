@@ -23,7 +23,6 @@ public class ScrollingWordGrid : MonoBehaviour
       tileMapChunks.Add(new List<GameObject>());
       for (int j = 0; j < 3; j++)
       {
-        Debug.Log(i * 3 + j);
         tileMapChunks[i].Add(transform.GetChild(i * 3 + j).gameObject);
       }
     }
@@ -46,7 +45,6 @@ public class ScrollingWordGrid : MonoBehaviour
 
   private void UpdateTileMapPositions()
   {
-    // Debug.Log("Player character at: " + playerTransform.position.x + " " + playerTransform.position.y);
     Vector3 currGridPosition = GetGridPosition(playerTransform.position);
     // can be optimized by getting direction an using the only directions, also can use for loops.
     Vector3 lookAheadUpGridPos = GetGridPosition(new(playerTransform.position.x,
@@ -58,18 +56,10 @@ public class ScrollingWordGrid : MonoBehaviour
     Vector3 lookAheadRightGridPos = GetGridPosition(new(playerTransform.position.x + CAMERA_FOV + MAP_LOAD_LOOKAHEAD,
       playerTransform.position.y));
 
-    Debug.Log("Player grid position: " + currGridPosition.x + " " + currGridPosition.y);
-    // Debug.Log("Look ahead up grid position: " + lookAheadUpGridPos.x + " " + lookAheadUpGridPos.y + " " + (currGridPosition == lookAheadUpGridPos));
-    // Debug.Log("Look ahead down grid position: " + lookAheadDownGridPos.x + " " + lookAheadDownGridPos.y + " " + (currGridPosition == lookAheadDownGridPos));
-    // Debug.Log("Look ahead left grid position: " + lookAheadLeftGridPos.x + " " + lookAheadLeftGridPos.y + " " + (currGridPosition == lookAheadLeftGridPos));
-    // Debug.Log("Look ahead right grid position: " + lookAheadRightGridPos.x + " " + lookAheadRightGridPos.y + " " + (currGridPosition == lookAheadRightGridPos));
-
     if (currGridPosition != lookAheadUpGridPos)
     {
       Vector3 nextTile = GetGridPosCircularIndex(lookAheadUpGridPos);
       Vector3 nextTileWorldPos = GetWorldPosition(lookAheadUpGridPos);
-      Debug.Log("Next tile to generate is up:  " + nextTile.x + " " + nextTile.y);
-      Debug.Log("Next world position up:  " + nextTileWorldPos.x + " " + nextTileWorldPos.y);
       tileMapChunks[(int)nextTile.x][(int)nextTile.y].transform.position = nextTileWorldPos;
     }
     if (currGridPosition != lookAheadDownGridPos)

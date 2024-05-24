@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,18 +7,26 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMove : MonoBehaviour
 {
-  Rigidbody2D rgbd2d;
-  Vector3 movementVector;
-  SpriteRenderer spriteRenderer;
   [SerializeField] float speed = 3f;
   [SerializeField] float attackSpeed = 1f;
-
+  [SerializeField] float rollForce = 10f;
+  Rigidbody2D rgbd2d;
+  Vector3 movementVector;
+  Transform spriteTransform;
+  BoxCollider2D boxColliderComponent;
   Animate animate;
+  private bool attacking = false;
+  private bool rolling = false;
+  private bool shouldRoll = false;
+  private bool moving = false;
+  private Vector2 rollVelocity = Vector2.zero;
+  private bool facingRight = true;
   private void Awake()
   {
     rgbd2d = GetComponent<Rigidbody2D>();
     animate = GetComponent<Animate>();
-    spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    boxColliderComponent = GetComponent<BoxCollider2D>();
+    spriteTransform = transform.GetChild(0);
     movementVector = new Vector3();
   }
   // Start is called before the first frame update
@@ -29,20 +38,25 @@ public class PlayerMove : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    HandleAttacking();
     HandleActions();
-    HandleMovements();
+    if (!rolling)
+    {
+      HandleMovements();
+      HandleAttacking();
+    }
+    HandleAnimations();
   }
 
   void HandleAttacking()
   {
-    if (Input.GetMouseButtonDown(0))
+    if (Input.GetMouseButton(0))
     {
-      animate.attacking = true;
+      attacking = true;
+      facingRight = Input.mousePosition.x > Screen.width / 2f;
     }
     if (Input.GetMouseButtonUp(0))
     {
-      animate.attacking = false;
+      attacking = false;
     }
   }
 
@@ -50,11 +64,24 @@ public class PlayerMove : MonoBehaviour
   {
     if (Input.GetKeyDown(KeyCode.Space))
     {
-      animate.rolling = true;
+      shouldRoll = true;
+      movementVector.x = Input.GetAxisRaw("Horizontal");
+      movementVector.y = Input.GetAxisRaw("Vertical");
+      // allow dodging when not pressing any direction input
+      if (movementVector.x == 0 && movementVector.y == 0)
+      {
+        rollVelocity = facingRight ? new(1, 0) : new(-1, 0);
+      }
+      else
+      {
+        rollVelocity = new(movementVector.x, movementVector.y);
+      }
     }
-    if (Input.GetKeyUp(KeyCode.Space))
+    if (rolling)
     {
-      animate.rolling = false;
+      Debug.Log(facingRight);
+      facingRight = rollVelocity.x > 0;
+      rgbd2d.velocity = rollVelocity * rollForce;
     }
   }
 
@@ -63,22 +90,37 @@ public class PlayerMove : MonoBehaviour
     movementVector.x = Input.GetAxisRaw("Horizontal");
     movementVector.y = Input.GetAxisRaw("Vertical");
     if (movementVector.x > 0 || movementVector.y > 0 ||
-      movementVector.y < 0 || movementVector.x < 0 && !animate.attacking)
+      movementVector.y < 0 || movementVector.x < 0)
     {
-      animate.moving = true;
-      if (movementVector.x < 0)
-      {
-        spriteRenderer.flipX = true;
-      }
-      else if (movementVector.x > 0)
-      {
-        spriteRenderer.flipX = false;
-      }
+      facingRight = movementVector.x > 0;
+      moving = true;
     }
     else
     {
-      animate.moving = false;
+      moving = false;
     }
     rgbd2d.velocity = movementVector * speed;
+  }
+
+  private void HandleAnimations()
+  {
+    spriteTransform.rotation = facingRight ? new(0, 0, 0, 0) : new(0, 180, 0, 0);
+    animate.moving = moving;
+    if (shouldRoll)
+    {
+      animate.Roll();
+      shouldRoll = false;
+    }
+    animate.attacking = attacking;
+  }
+
+  public void SetHitbox(bool enabled)
+  {
+    boxColliderComponent.enabled = enabled;
+  }
+
+  public void SetRolling(bool rolling)
+  {
+    this.rolling = rolling;
   }
 }
