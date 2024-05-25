@@ -23,7 +23,7 @@ public class PlayerRollCallbacks : StateMachineBehaviour
   {
     var PlayerMove = animator.transform.parent.gameObject.GetComponent<PlayerMove>();
     PlayerMove.SetHitbox(true);
-    PlayerMove.SetRolling(false);
+    PlayerMove.rolling = false;
   }
 
   // OnStateMove is called right after Animator.OnAnimatorMove()

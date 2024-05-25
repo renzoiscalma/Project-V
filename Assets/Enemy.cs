@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
 
   void Update()
   {
+    if (GameObjTarget == null) return;
     if (!healthComponent.dead)
     {
       Vector3 direction = (TransformTarget.position - (Vector3)rb2d.position).normalized;

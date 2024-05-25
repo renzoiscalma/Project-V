@@ -14,27 +14,18 @@ public class PlayerMove : MonoBehaviour
   Vector3 movementVector;
   Transform spriteTransform;
   BoxCollider2D boxColliderComponent;
-  Animate animate;
-  private bool attacking = false;
-  private bool rolling = false;
-  private bool shouldRoll = false;
-  private bool moving = false;
+  public bool rolling = false;
+  public bool shouldRoll = false;
+  public bool moving = false;
+  public bool facingRight = true;
   private Vector2 rollVelocity = Vector2.zero;
-  private bool facingRight = true;
   private void Awake()
   {
     rgbd2d = GetComponent<Rigidbody2D>();
-    animate = GetComponent<Animate>();
     boxColliderComponent = GetComponent<BoxCollider2D>();
     spriteTransform = transform.GetChild(0);
     movementVector = new Vector3();
   }
-  // Start is called before the first frame update
-  void Start()
-  {
-
-  }
-
   // Update is called once per frame
   void Update()
   {
@@ -42,27 +33,11 @@ public class PlayerMove : MonoBehaviour
     if (!rolling)
     {
       HandleMovements();
-      HandleAttacking();
-    }
-    HandleAnimations();
-  }
-
-  void HandleAttacking()
-  {
-    if (Input.GetMouseButton(0))
-    {
-      attacking = true;
-      facingRight = Input.mousePosition.x > Screen.width / 2f;
-    }
-    if (Input.GetMouseButtonUp(0))
-    {
-      attacking = false;
     }
   }
-
   void HandleActions()
   {
-    if (Input.GetKeyDown(KeyCode.Space))
+    if (Input.GetKeyDown(KeyCode.Space) && !rolling)
     {
       shouldRoll = true;
       movementVector.x = Input.GetAxisRaw("Horizontal");
@@ -70,7 +45,7 @@ public class PlayerMove : MonoBehaviour
       // allow dodging when not pressing any direction input
       if (movementVector.x == 0 && movementVector.y == 0)
       {
-        rollVelocity = facingRight ? new(1, 0) : new(-1, 0);
+        rollVelocity = new(facingRight ? 1 : -1, 0);
       }
       else
       {
@@ -79,7 +54,7 @@ public class PlayerMove : MonoBehaviour
     }
     if (rolling)
     {
-      facingRight = rollVelocity.x > 0;
+      facingRight = rollVelocity.x == 0 ? facingRight : rollVelocity.x > 0;
       rgbd2d.velocity = rollVelocity * rollForce;
     }
   }
@@ -91,7 +66,10 @@ public class PlayerMove : MonoBehaviour
     if (movementVector.x > 0 || movementVector.y > 0 ||
       movementVector.y < 0 || movementVector.x < 0)
     {
-      facingRight = movementVector.x > 0;
+      if (movementVector.x != 0)
+      {
+        facingRight = movementVector.x > 0;
+      }
       moving = true;
     }
     else
@@ -101,25 +79,8 @@ public class PlayerMove : MonoBehaviour
     rgbd2d.velocity = movementVector * speed;
   }
 
-  private void HandleAnimations()
-  {
-    spriteTransform.rotation = facingRight ? new(0, 0, 0, 0) : new(0, 180, 0, 0);
-    animate.moving = moving;
-    if (shouldRoll)
-    {
-      animate.Roll();
-      shouldRoll = false;
-    }
-    animate.attacking = attacking;
-  }
-
   public void SetHitbox(bool enabled)
   {
     boxColliderComponent.enabled = enabled;
-  }
-
-  public void SetRolling(bool rolling)
-  {
-    this.rolling = rolling;
   }
 }
