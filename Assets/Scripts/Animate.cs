@@ -17,6 +17,10 @@ public class Animate : MonoBehaviour
     spriteTransform = transform.GetComponent<Transform>();
     playerAttackComponent = transform.GetComponent<AttackComponent>();
   }
+  public void Start()
+  {
+    animator.SetFloat("attackSpeedMultiplier", playerAttackComponent.attackSpeedMultiplier);
+  }
   private void Update()
   {
     HandleFacing();
@@ -33,5 +37,10 @@ public class Animate : MonoBehaviour
   private void HandleFacing()
   {
     spriteTransform.rotation = playerMove.facingRight ? facingRightQ : facingLeftQ;
+  }
+
+  private void SetAttackMulitplier(float attackSpeedMultiplier)
+  {
+    animator.SetFloat("attackSpeedMultiplier", attackSpeedMultiplier);
   }
 }

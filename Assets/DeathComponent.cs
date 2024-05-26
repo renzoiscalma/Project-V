@@ -13,6 +13,10 @@ public class DeathComponent : MonoBehaviour
   }
   public void Kill()
   {
+    if (gameObject.tag == "Monsters")
+    {
+      gameObject.GetComponent<Enemy>().SpawnExperienceShard();
+    }
     animator.SetTrigger("death");
   }
 

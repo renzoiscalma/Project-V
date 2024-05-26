@@ -6,15 +6,17 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
   [SerializeField] float walkSpeed;
+  public GameObject ExperiencePrefab;
   private Transform TransformTarget;
   private GameObject GameObjTarget;
   private Rigidbody2D rb2d;
   private Animator animator;
   private HealthComponent healthComponent;
-  public void Init(GameObject gameObjectTarget)
+  public void Init(GameObject gameObjectTarget, GameObject experiencePrefab)
   {
     GameObjTarget = gameObjectTarget;
     TransformTarget = gameObjectTarget.transform;
+    ExperiencePrefab = experiencePrefab;
   }
 
   void Awake()
@@ -54,5 +56,11 @@ public class Enemy : MonoBehaviour
   void Attack()
   {
     animator.SetTrigger("attack");
+  }
+
+  public void SpawnExperienceShard()
+  {
+    GameObject expShard = Instantiate(ExperiencePrefab);
+    expShard.transform.position = transform.position;
   }
 }

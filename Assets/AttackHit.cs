@@ -5,7 +5,7 @@ using UnityEngine;
 // attached to sprite of unit when attacking
 public class AttackHit : MonoBehaviour
 {
-  void OnCollisionEnter2D(Collision2D collision)
+  void OnTriggerEnter2D(Collider2D collision)
   {
     // if different tags, meaning player can hit enemies, and vice versa
     if (!collision.gameObject.CompareTag(transform.gameObject.tag))

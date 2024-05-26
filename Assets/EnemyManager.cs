@@ -4,8 +4,8 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
   [SerializeField] GameObject enemy;
-  [SerializeField] Vector2 spawnArea;
-  [SerializeField] float spawnTimer;
+  [SerializeField] GameObject experience;
+  [SerializeField] float spawnTimer = 5;
   [SerializeField] Transform chaseTarget;
   [SerializeField] CinemachineVirtualCamera cmCam;
   [SerializeField] float cameraOffset = 10;
@@ -32,7 +32,7 @@ public class EnemyManager : MonoBehaviour
     Vector3 position = generateRandomPosition();
     GameObject newEnemy = Instantiate(enemy);
     newEnemy.transform.position = position;
-    newEnemy.GetComponent<Enemy>().Init(chaseTarget.gameObject);
+    newEnemy.GetComponent<Enemy>().Init(chaseTarget.gameObject, experience);
   }
 
   private Vector3 generateRandomPosition()

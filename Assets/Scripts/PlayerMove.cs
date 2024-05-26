@@ -1,19 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMove : MonoBehaviour
 {
   [SerializeField] float speed = 3f;
-  [SerializeField] float attackSpeed = 1f;
-  [SerializeField] float rollForce = 10f;
+  [SerializeField] float rollForce = 7f;
+  [SerializeField] public float experience = 0;
   Rigidbody2D rgbd2d;
   Vector3 movementVector;
-  Transform spriteTransform;
   BoxCollider2D boxColliderComponent;
+  AttackComponent attackComponent;
   public bool rolling = false;
   public bool shouldRoll = false;
   public bool moving = false;
@@ -23,7 +19,7 @@ public class PlayerMove : MonoBehaviour
   {
     rgbd2d = GetComponent<Rigidbody2D>();
     boxColliderComponent = GetComponent<BoxCollider2D>();
-    spriteTransform = transform.GetChild(0);
+    attackComponent = GetComponent<AttackComponent>();
     movementVector = new Vector3();
   }
   // Update is called once per frame
@@ -54,6 +50,7 @@ public class PlayerMove : MonoBehaviour
     }
     if (rolling)
     {
+      attackComponent.attacking = false;
       facingRight = rollVelocity.x == 0 ? facingRight : rollVelocity.x > 0;
       rgbd2d.velocity = rollVelocity * rollForce;
     }
@@ -66,7 +63,9 @@ public class PlayerMove : MonoBehaviour
     if (movementVector.x > 0 || movementVector.y > 0 ||
       movementVector.y < 0 || movementVector.x < 0)
     {
-      if (movementVector.x != 0)
+      // don't updating facing if attacking,
+      // we want the character to face to where it's attacking.
+      if (movementVector.x != 0 && !attackComponent.attacking)
       {
         facingRight = movementVector.x > 0;
       }
