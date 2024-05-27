@@ -9,20 +9,27 @@ public class DeathComponent : MonoBehaviour
 
   void Awake()
   {
-    animator = GetComponent<Animator>();
+    if (gameObject.CompareTag("Monsters"))
+    {
+      animator = GetComponent<Animator>();
+    }
+    else
+    {
+      animator = GetComponentInChildren<Animator>();
+    }
   }
   public void Kill()
   {
-    if (gameObject.tag == "Monsters")
+    if (gameObject.CompareTag("Monsters"))
     {
       gameObject.GetComponent<Enemy>().SpawnExperienceShard();
     }
+    Debug.Log("death");
     animator.SetTrigger("death");
   }
 
   public void DestroyObject()
   {
     Destroy(transform.gameObject);
-    // add reward component here for rolling.
   }
 }

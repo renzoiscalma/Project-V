@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
   Vector3 movementVector;
   BoxCollider2D boxColliderComponent;
   AttackComponent attackComponent;
+  HealthComponent healthComponent;
   public bool rolling = false;
   public bool shouldRoll = false;
   public bool moving = false;
@@ -20,11 +21,13 @@ public class PlayerMove : MonoBehaviour
     rgbd2d = GetComponent<Rigidbody2D>();
     boxColliderComponent = GetComponent<BoxCollider2D>();
     attackComponent = GetComponent<AttackComponent>();
+    healthComponent = GetComponent<HealthComponent>();
     movementVector = new Vector3();
   }
   // Update is called once per frame
   void Update()
   {
+    if (healthComponent.dead) return;
     HandleActions();
     if (!rolling)
     {
