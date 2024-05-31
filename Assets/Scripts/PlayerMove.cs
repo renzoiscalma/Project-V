@@ -5,6 +5,7 @@ public class PlayerMove : MonoBehaviour
 {
   [SerializeField] float speed = 3f;
   [SerializeField] float rollForce = 7f;
+  [SerializeField] PauseManager pauseManager;
   [SerializeField] public float experience = 0;
   Rigidbody2D rgbd2d;
   Vector3 movementVector;
@@ -27,7 +28,7 @@ public class PlayerMove : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (healthComponent.dead) return;
+    if (pauseManager.paused || healthComponent.dead) return;
     HandleActions();
     if (!rolling)
     {

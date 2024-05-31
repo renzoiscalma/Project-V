@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  ExperiencePrefab: {fileID: 0}
+  experienceValue: 1
 --- !u!114 &3957457333425396402
 MonoBehaviour:
   m_ObjectHideFlags: 0

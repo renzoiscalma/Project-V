@@ -9,7 +9,6 @@ public class EnemyAttackHit : MonoBehaviour
     // if different tags, meaning player can hit enemies, and vice versa
     if (collision.gameObject.CompareTag("Player"))
     {
-      Debug.Log("Hurt this character!: " + collision.gameObject.tag);
       transform.GetComponentInParent<EnemyAttackComponent>().DamageObject(collision.gameObject);
     }
   }

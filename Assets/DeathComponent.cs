@@ -24,7 +24,6 @@ public class DeathComponent : MonoBehaviour
     {
       gameObject.GetComponent<Enemy>().SpawnExperienceShard();
     }
-    Debug.Log("death");
     animator.SetTrigger("death");
   }
 

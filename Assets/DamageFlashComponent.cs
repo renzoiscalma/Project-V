@@ -29,7 +29,6 @@ public class DamageFlashComponent : MonoBehaviour
     while (elapsedTime < flashTime)
     {
       elapsedTime += Time.deltaTime;
-      Debug.Log("elapsedTime: " + elapsedTime);
       // lerp flash amount
       currentFlashAmount = Mathf.Lerp(1f, 0f, elapsedTime / flashTime);
       material.SetFloat("_FlashAmount", currentFlashAmount);

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
-  [SerializeField] float health = 10;
   public bool dead = false;
+  [SerializeField] float maxHp = 10;
+  float health = 10;
   private DeathComponent deathComponent;
   private BoxCollider2D hitboxCollider;
   private DamageFlashComponent damageFlasher;
@@ -15,6 +16,7 @@ public class HealthComponent : MonoBehaviour
     deathComponent = GetComponent<DeathComponent>();
     hitboxCollider = GetComponent<BoxCollider2D>();
     damageFlasher = GetComponentInChildren<DamageFlashComponent>();
+    health = maxHp;
   }
   public void TakeDamage(float damage)
   {
@@ -26,5 +28,11 @@ public class HealthComponent : MonoBehaviour
       hitboxCollider.enabled = false;
       dead = true;
     }
+  }
+
+  public void ApplyLevelUp()
+  {
+    health += 2;
+    maxHp += 2;
   }
 }

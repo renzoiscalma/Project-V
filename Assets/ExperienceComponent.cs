@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class ExperienceComponent : MonoBehaviour
 {
-  [SerializeField] float value = 1;
-  [SerializeField] float speed = 5.5f; // velocity multiplier
+  [SerializeField] public float value = 1;
+  [SerializeField] float speed = 6f; // velocity multiplier
   private Transform target = null;
   private Rigidbody2D rb2d;
   private float collectTimer = 0.5f;
@@ -47,7 +47,7 @@ public class ExperienceComponent : MonoBehaviour
   {
     if (other.gameObject.CompareTag("Player"))
     {
-      other.gameObject.GetComponent<PlayerMove>().experience = Collect();
+      other.gameObject.GetComponent<PlayerExpComponent>().AddExperience(Collect());
     }
   }
 }
