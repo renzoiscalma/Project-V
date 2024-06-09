@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerExpComponent : MonoBehaviour
 {
+  [SerializeField] UpgradeManagerComponent upgradeManager;
+  [SerializeField] FillableBar expUI;
   public float currentExperience = 0;
   public float currentLevel = 1;
   public float expToLevelUp = getExpForLevelUp(1);
@@ -14,22 +16,24 @@ public class PlayerExpComponent : MonoBehaviour
   {
     attackComponent = GetComponent<AttackComponent>();
     healthComponent = GetComponent<HealthComponent>();
+    expUI.Init(currentExperience, expToLevelUp);
   }
 
   public void AddExperience(float value)
   {
-    Debug.Log("Obtained exp: " + value);
     currentExperience += value;
-    while (currentExperience >= expToLevelUp)
+    expUI.SetValue(currentExperience);
+    while (currentExperience >= expToLevelUp) // exp might overflow, just leaving this here
     {
-      Debug.Log("Level up! Current level: " + currentLevel);
       healthComponent.ApplyLevelUp();
       attackComponent.ApplyAtkUpgrade();
       currentExperience -= expToLevelUp;
       currentLevel++;
       expToLevelUp = getExpForLevelUp(currentLevel);
+      upgradeManager.GenerateUpgradesAndShowUI(gameObject);
+      expUI.SetValue(currentExperience);
+      expUI.SetMaxValue(expToLevelUp);
     }
-    Debug.Log("Current EXP: " + currentExperience + "/" + expToLevelUp);
   }
 
   static float getExpForLevelUp(float level)

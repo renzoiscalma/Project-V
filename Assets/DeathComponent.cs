@@ -6,7 +6,6 @@ using UnityEngine;
 public class DeathComponent : MonoBehaviour
 {
   Animator animator;
-
   void Awake()
   {
     if (gameObject.CompareTag("Monsters"))

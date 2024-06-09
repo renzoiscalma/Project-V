@@ -6,8 +6,9 @@ public class UpgradeManagerComponent : MonoBehaviour
 {
   public Upgrade[] possibleUpgrades;
   public List<Upgrade> currentUpgrades;
-  [SerializeField] GameObject player;
+  GameObject player;
   [SerializeField] UpgradesUIController upgradesUi;
+  [SerializeField] WeaponManager weaponManager;
   // Start is called before the first frame update
   void Start()
   {
@@ -18,11 +19,14 @@ public class UpgradeManagerComponent : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.U))
-    {
-      upgradesUi.Open();
-      upgradesUi.SetUpgradeButtons(GenerateUpgradesToChoose(), applyUpgrade);
-    }
+
+  }
+
+  public void GenerateUpgradesAndShowUI(GameObject player)
+  {
+    this.player = player;
+    upgradesUi.Open();
+    upgradesUi.SetUpgradeButtons(GenerateUpgradesToChoose(), applyUpgrade);
   }
 
   List<Upgrade> GenerateUpgradesToChoose(int count = 3)
@@ -45,7 +49,15 @@ public class UpgradeManagerComponent : MonoBehaviour
     }
     else
     {
-      Upgrade newUpgrade = Instantiate(upgrade, transform);
+      Upgrade newUpgrade;
+      if (upgrade.upgradeType == UpgradeType.Weapon)
+      {
+        newUpgrade = Instantiate(upgrade, weaponManager.transform);
+      }
+      else
+      {
+        newUpgrade = Instantiate(upgrade, transform);
+      }
       newUpgrade.Init(player);
       newUpgrade.ApplyUpgrade();
       currentUpgrades.Add(newUpgrade);

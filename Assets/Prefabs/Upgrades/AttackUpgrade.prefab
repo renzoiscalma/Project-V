@@ -49,4 +49,4 @@ MonoBehaviour:
   image: {fileID: -1502274247, guid: 8de55a0390c28db49aad3b9d3fdb48d1, type: 3}
   level: 0
   playerReference: {fileID: 0}
-  upgradeType: 0
+  upgradeType: 1
