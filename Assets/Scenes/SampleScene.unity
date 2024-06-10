@@ -43466,6 +43466,7 @@ MonoBehaviour:
   - {fileID: 1808403822928886529, guid: 56b15fd51edfdb44087ccce06f3f20e3, type: 3}
   - {fileID: -104149211321666324, guid: 8bb88bd10bbae4e44a44b0f3a1474721, type: 3}
   - {fileID: -4567626413663731327, guid: 8f4967f591756ed4eb52f119778e1ac7, type: 3}
+  - {fileID: -51285432937571524, guid: 9c4edbf8321d8224e941694d682fed4c, type: 3}
   currentUpgrades: []
   upgradesUi: {fileID: 759971330}
   weaponManager: {fileID: 320533638}

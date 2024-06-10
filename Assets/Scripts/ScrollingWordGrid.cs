@@ -14,6 +14,8 @@ public class ScrollingWordGrid : MonoBehaviour
   const int TILE_SIZE = 32;
   const int CAMERA_FOV = 10;
   const int MAP_LOAD_LOOKAHEAD = 2;
+  const float timeToUpdate = 1;
+  private float currTime = 1;
   void Awake()
   {
     playerTransform = PlayerCharacter.GetComponent<Transform>();
@@ -36,13 +38,19 @@ public class ScrollingWordGrid : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    UpdateTileMapPositions();
-
-    // if gridpos of playerpos + camera + offset != gridpos of playerpos
-    // move the "wrapped" tile into gridpos of playerpos + camera + offset 
-    // wrapped 
+    // only update the map every 1 second to save computation time
+    currTime -= Time.deltaTime;
+    if (currTime <= 0)
+    {
+      UpdateTileMapPositions();
+      currTime = timeToUpdate;
+    }
   }
 
+
+  // if gridpos of playerpos + camera + offset != gridpos of playerpos
+  // move the "wrapped" tile into gridpos of playerpos + camera + offset 
+  // wrapped 
   private void UpdateTileMapPositions()
   {
     Vector3 currGridPosition = GetGridPosition(playerTransform.position);
@@ -55,6 +63,14 @@ public class ScrollingWordGrid : MonoBehaviour
       playerTransform.position.y));
     Vector3 lookAheadRightGridPos = GetGridPosition(new(playerTransform.position.x + CAMERA_FOV + MAP_LOAD_LOOKAHEAD,
       playerTransform.position.y));
+    Vector3 lookAheadUpRight = GetGridPosition(new(playerTransform.position.x + CAMERA_FOV + MAP_LOAD_LOOKAHEAD,
+      playerTransform.position.y + CAMERA_FOV + MAP_LOAD_LOOKAHEAD));
+    Vector3 lookAheadDownRight = GetGridPosition(new(playerTransform.position.x + CAMERA_FOV + MAP_LOAD_LOOKAHEAD,
+      playerTransform.position.y - CAMERA_FOV - MAP_LOAD_LOOKAHEAD)); ;
+    Vector3 lookAheadUpLeft = GetGridPosition(new(playerTransform.position.x - CAMERA_FOV - MAP_LOAD_LOOKAHEAD,
+      playerTransform.position.y + CAMERA_FOV + MAP_LOAD_LOOKAHEAD)); ;
+    Vector3 lookAheadDownLeft = GetGridPosition(new(playerTransform.position.x - CAMERA_FOV - MAP_LOAD_LOOKAHEAD,
+      playerTransform.position.y - CAMERA_FOV - MAP_LOAD_LOOKAHEAD)); ;
 
     if (currGridPosition != lookAheadUpGridPos)
     {
@@ -78,6 +94,30 @@ public class ScrollingWordGrid : MonoBehaviour
     {
       Vector3 nextTile = GetGridPosCircularIndex(lookAheadRightGridPos);
       Vector3 nextTileWorldPos = GetWorldPosition(lookAheadRightGridPos);
+      tileMapChunks[(int)nextTile.x][(int)nextTile.y].transform.position = nextTileWorldPos;
+    }
+    if (currGridPosition != lookAheadUpRight)
+    {
+      Vector3 nextTile = GetGridPosCircularIndex(lookAheadUpRight);
+      Vector3 nextTileWorldPos = GetWorldPosition(lookAheadUpRight);
+      tileMapChunks[(int)nextTile.x][(int)nextTile.y].transform.position = nextTileWorldPos;
+    }
+    if (currGridPosition != lookAheadDownRight)
+    {
+      Vector3 nextTile = GetGridPosCircularIndex(lookAheadDownRight);
+      Vector3 nextTileWorldPos = GetWorldPosition(lookAheadDownRight);
+      tileMapChunks[(int)nextTile.x][(int)nextTile.y].transform.position = nextTileWorldPos;
+    }
+    if (currGridPosition != lookAheadUpLeft)
+    {
+      Vector3 nextTile = GetGridPosCircularIndex(lookAheadUpLeft);
+      Vector3 nextTileWorldPos = GetWorldPosition(lookAheadUpLeft);
+      tileMapChunks[(int)nextTile.x][(int)nextTile.y].transform.position = nextTileWorldPos;
+    }
+    if (currGridPosition != lookAheadDownLeft)
+    {
+      Vector3 nextTile = GetGridPosCircularIndex(lookAheadDownLeft);
+      Vector3 nextTileWorldPos = GetWorldPosition(lookAheadDownLeft);
       tileMapChunks[(int)nextTile.x][(int)nextTile.y].transform.position = nextTileWorldPos;
     }
   }

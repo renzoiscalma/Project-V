@@ -13,29 +13,22 @@ public class ArrowsComponent : WeaponThrowableBase
     damage = 6;
     nextAttackTime = 2;
   }
-
-  // Update is called once per frame
-  void Update()
+  public override void OnAttack()
   {
-    currAttackTimer -= Time.deltaTime;
-    if (currAttackTimer <= 0)
-    {
-      currAttackTimer = 2;
-      GameObject arrowLeft = Instantiate(arrowPrefab);
-      GameObject arrowRight = Instantiate(arrowPrefab);
-      arrowLeft.GetComponent<Arrow>().ttl = arrowRight.GetComponent<Arrow>().ttl = timeToLive;
+    GameObject arrowLeft = Instantiate(arrowPrefab);
+    GameObject arrowRight = Instantiate(arrowPrefab);
+    arrowLeft.GetComponent<Arrow>().ttl = arrowRight.GetComponent<Arrow>().ttl = timeToLive;
 
-      arrowLeft.GetComponent<Arrow>().damage = damage;
-      arrowRight.GetComponent<Arrow>().damage = damage;
+    arrowLeft.GetComponent<Arrow>().damage = damage;
+    arrowRight.GetComponent<Arrow>().damage = damage;
 
-      arrowLeft.transform.position = arrowRight.transform.position = transform.position;
+    arrowLeft.transform.position = arrowRight.transform.position = transform.position;
 
-      arrowRight.transform.Rotate(new Vector3(0, 0, 1), 90f);
-      arrowLeft.transform.Rotate(new(0, 0, 1), -90f);
+    arrowRight.transform.Rotate(new Vector3(0, 0, 1), 90f);
+    arrowLeft.transform.Rotate(new(0, 0, 1), -90f);
 
-      arrowLeft.GetComponent<Rigidbody2D>().velocity = new(-10, 0);
-      arrowRight.GetComponent<Rigidbody2D>().velocity = new(10, 0);
-    }
+    arrowLeft.GetComponent<Rigidbody2D>().velocity = new(-10, 0);
+    arrowRight.GetComponent<Rigidbody2D>().velocity = new(10, 0);
   }
 
   public void LevelUp()

@@ -9,4 +9,19 @@ public class WeaponThrowableBase : MonoBehaviour
   public float timeToLive = 0;
 
   public float currAttackTimer = 0;
+
+  public virtual void Update()
+  {
+    currAttackTimer -= Time.deltaTime;
+    if (currAttackTimer <= 0)
+    {
+      OnAttack();
+      currAttackTimer = nextAttackTime;
+    }
+  }
+
+  public virtual void OnAttack()
+  {
+
+  }
 }
