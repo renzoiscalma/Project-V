@@ -54,6 +54,7 @@ public class Lightning : MonoBehaviour
     {
       Destroy(gameObject);
     }
+    UpdateSprite();
   }
 
   void OnTriggerEnter2D(Collider2D other)

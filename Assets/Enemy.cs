@@ -6,8 +6,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
   [SerializeField] float walkSpeed;
-  [SerializeField] float experienceValue;
-  private GameObject ExperiencePrefab;
+  [SerializeField] public float experienceValue;
+  public GameObject ExperiencePrefab;
   private Transform TransformTarget;
   private GameObject GameObjTarget;
   private Rigidbody2D rb2d;
@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
   private HealthComponent healthComponent;
   public void Init(GameObject gameObjectTarget, GameObject experiencePrefab)
   {
+    gameObject.SetActive(true);
     GameObjTarget = gameObjectTarget;
     TransformTarget = gameObjectTarget.transform;
     ExperiencePrefab = experiencePrefab;
@@ -64,5 +65,6 @@ public class Enemy : MonoBehaviour
     GameObject expShard = Instantiate(ExperiencePrefab);
     expShard.GetComponent<ExperienceComponent>().value = experienceValue;
     expShard.transform.position = transform.position;
+    expShard.SetActive(true);
   }
 }

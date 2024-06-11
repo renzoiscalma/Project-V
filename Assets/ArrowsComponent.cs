@@ -35,9 +35,10 @@ public class ArrowsComponent : WeaponThrowableBase
   {
     damage += 5f;
     timeToLive += 0.3f;
-    if (nextAttackTime > 0.1f)
+    nextAttackTime -= 0.2f;
+    if (nextAttackTime <= 0.1f)
     {
-      nextAttackTime -= 0.2f;
+      nextAttackTime = 0.15f;
     }
     Debug.Log("Applying arrows upgrade!");
   }

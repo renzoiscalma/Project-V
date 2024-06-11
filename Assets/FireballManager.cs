@@ -19,7 +19,6 @@ public class FireballManager : WeaponThrowableBase
       GameObject fbObj = Instantiate(fireballPrefab);
       fbObj.transform.position = transform.position;
       fbObj.GetComponent<Fireball>().Init(damage, aoePercent, playerMove.facingRight, timeToLive);
-      Debug.Log("Fireball attack");
     }
   }
 

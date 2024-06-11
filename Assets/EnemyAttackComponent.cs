@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyAttackComponent : MonoBehaviour
 {
 
-  [SerializeField] float attackDamage = 2;
+  [SerializeField] public float attackDamage = 2;
   [SerializeField] public float attackSpeedMultiplier = 0.8f; // multiplier for attack animation
   [SerializeField] public float attackRadius = 0f; // % increase in attack radius
   private float baseAttackRadius = 0f;

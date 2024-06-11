@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealthComponent : MonoBehaviour
 {
   public bool dead = false;
-  [SerializeField] float maxHp = 10;
+  [SerializeField] public float maxHp = 10;
   [SerializeField] FillableBar healthUI;
   [SerializeField] bool hasUI = false;
   float health = 10;
