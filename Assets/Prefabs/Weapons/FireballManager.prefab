@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6505386046157353185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1007817612112679576}
+  - component: {fileID: 3803650873222749393}
+  - component: {fileID: 7133565278863901190}
+  m_Layer: 0
+  m_Name: FireballManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1007817612112679576
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6505386046157353185}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3803650873222749393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6505386046157353185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb4e87ca01b12d4b8309181375c1726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextAttackTime: 1
+  damage: 9
+  timeToLive: 2
+  currAttackTimer: 0
+  fireballPrefab: {fileID: 8142520520895131516, guid: da245bed76433084489a88518ba0c1db, type: 3}
+  chancePercent: 30
+  aoePercent: 0
+  playerMove: {fileID: 0}
+--- !u!114 &7133565278863901190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6505386046157353185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c64c810f7a72849804c0f7c03b4de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: Fireball
+  upgradeDesc: Chance to shoot fireballs after attacking.
+  image: {fileID: -909876512, guid: caee717a964ae4c41bcd03e9b6d43e98, type: 3}
+  level: 0
+  playerReference: {fileID: 0}
+  upgradeType: 0

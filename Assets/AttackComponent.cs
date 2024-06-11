@@ -7,6 +7,7 @@ public class AttackComponent : MonoBehaviour
   [SerializeField] public float attackDamage = 8;
   [SerializeField] public float attackSpeedMultiplier = 0.8f; // multiplier for attack animation
   [SerializeField] public float attackRadius = 0; // % increase in attack radius
+  [SerializeField] public WeaponManager weaponManager;
   [SerializeField] PauseManager pauseManager;
   private Vector2 baseAttackRangeOffset = Vector2.zero;
   private Vector2 baseAttackRangeSize = Vector2.zero;
@@ -52,6 +53,11 @@ public class AttackComponent : MonoBehaviour
     {
       targetGameObject.GetComponent<HealthComponent>().TakeDamage(attackDamage);
     }
+  }
+  // called by attack hit, which is called by animation event
+  public void HandleAttackHitboxActivate()
+  {
+    weaponManager.TriggerAllManualWeaponAttacks();
   }
 
   public void IncreaseAttackRadius(float radius)

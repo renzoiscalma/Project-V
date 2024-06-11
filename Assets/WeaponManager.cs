@@ -11,8 +11,20 @@ public class WeaponManager : MonoBehaviour
   }
 
   // Update is called once per frame
-  void Update()
-  {
+  // void Update()
+  // {
 
+  // }
+
+  public void TriggerAllManualWeaponAttacks()
+  {
+    var weapons = GetComponentsInChildren<WeaponThrowableBase>();
+    foreach (var weapon in weapons)
+    {
+      if (weapon)
+      {
+        weapon.ManualAttackTrigger();
+      }
+    }
   }
 }

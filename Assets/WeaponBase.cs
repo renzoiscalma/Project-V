@@ -24,4 +24,9 @@ public class WeaponThrowableBase : MonoBehaviour
   {
 
   }
+
+  public virtual void ManualAttackTrigger()
+  {
+
+  }
 }

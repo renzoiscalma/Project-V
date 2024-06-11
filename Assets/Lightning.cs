@@ -29,6 +29,7 @@ public class Lightning : MonoBehaviour
 
   public void UpdateSprite()
   {
+    if (gameObject == null || sourcePosition.gameObject == null) return;
     // get distance and resize lightning to target
     transform.SetPositionAndRotation(sourcePosition.transform.position, Quaternion.identity);
     float distance = Vector2.Distance(transform.position, target.transform.position);
@@ -49,11 +50,7 @@ public class Lightning : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    // if (fired)
-    // {
-    //   Destroy(gameObject);
-    // }
-    if (target == null && fired)
+    if (target == null)
     {
       Destroy(gameObject);
     }
