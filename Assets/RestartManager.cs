@@ -12,10 +12,15 @@ public class RestartManager : MonoBehaviour
     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     gameObject.SetActive(false);
   }
-
   // used by event on player death animation
   public void GameOver()
   {
     gameOverUi.gameObject.SetActive(true);
+  }
+
+  void Update()
+  {
+    if (Input.GetKeyDown(KeyCode.Escape))
+      Application.Quit();
   }
 }

@@ -56,4 +56,10 @@ public class HealthComponent : MonoBehaviour
   {
     return health;
   }
+
+  public void SetHealth(float maxHp)
+  {
+    this.maxHp = maxHp;
+    this.health = maxHp;
+  }
 }

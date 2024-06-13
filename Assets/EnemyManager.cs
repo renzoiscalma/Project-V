@@ -1,5 +1,4 @@
 using Cinemachine;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -8,8 +7,10 @@ public class EnemyManager : MonoBehaviour
   [SerializeField] GameObject experiencePrefab;
   [SerializeField] float experienceValue;
   [SerializeField] float spawnTimer = 5;
+  [SerializeField] float spawnTimerDecerementValue = 0.08f;
   [SerializeField] Transform chaseTarget;
   [SerializeField] CinemachineVirtualCamera cmCam;
+  [SerializeField] GameObject bossPrefab;
   [SerializeField] float cameraOffset = 10f;
   // increase hp every N units of time
   [SerializeField] float timeToIncreaseHp = 10f;
@@ -26,6 +27,7 @@ public class EnemyManager : MonoBehaviour
   float timer = 0;
   [SerializeField] float timeToIncreaseExp = 50f;
   float increaseExpTimer = 0;
+  float bossCounter = 1;
 
   // Start is called before the first frame update
   void Start()
@@ -35,6 +37,8 @@ public class EnemyManager : MonoBehaviour
     atkIncreaseTimer = timeToIncreaseAtk;
     hpIncreaseTimer = timeToIncreaseHp;
     increaseExpTimer = timeToIncreaseExp;
+    var cameraOrthoSize = cmCam.m_Lens.OrthographicSize;
+    cameraOffset = cameraOrthoSize * 2f;
   }
 
   // Update is called once per frame
@@ -52,7 +56,7 @@ public class EnemyManager : MonoBehaviour
     if (hpIncreaseTimer <= 0f)
     {
       Debug.Log("Enemy Health Increasing! " + gameObject.name);
-      enemy.GetComponent<HealthComponent>().maxHp += 2;
+      enemy.GetComponent<HealthComponent>().maxHp += 10;
       hpIncreaseTimer = timeToIncreaseHp;
     }
     atkIncreaseTimer -= Time.deltaTime;
@@ -65,14 +69,18 @@ public class EnemyManager : MonoBehaviour
     bossSpawnTimer -= Time.deltaTime;
     if (bossSpawnTimer <= 0)
     {
-      SpawnBoss();
+      for (int i = 0; i < bossCounter; i++)
+      {
+        SpawnBoss();
+      }
       bossSpawnTimer = timeToSpawnBoss;
+      bossCounter++;
     }
     decreaseSpawnTimer -= Time.deltaTime;
     if (decreaseSpawnTimer <= 0 && !spawnTimerMax)
     {
       Debug.Log("Spawn Timer Decreasing! " + gameObject.name);
-      spawnTimer -= 0.08f;
+      spawnTimer -= spawnTimerDecerementValue;
       decreaseSpawnTimer = timeToDecreaseSpawnTimer;
       if (spawnTimer <= 0.03f)
       {
@@ -124,6 +132,14 @@ public class EnemyManager : MonoBehaviour
 
   private void SpawnBoss()
   {
-    Debug.Log("Spawn some boss now!");
+    if (bossPrefab == null) return;
+    Vector3 position = generateRandomPosition();
+    GameObject newEnemy = Instantiate(bossPrefab);
+    var bossHealth = newEnemy.GetComponent<HealthComponent>();
+    bossHealth.SetHealth(bossCounter * bossHealth.GetHealth());
+    newEnemy.transform.position = position;
+    Enemy enemyComponent = newEnemy.GetComponent<Enemy>();
+    enemyComponent.Init(chaseTarget.gameObject, experiencePrefab);
+    enemyComponent.experienceValue = experienceValue * 10;
   }
 }

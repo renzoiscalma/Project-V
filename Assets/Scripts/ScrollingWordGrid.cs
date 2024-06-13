@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.ConstrainedExecution;
+using Cinemachine;
 using Unity.Collections;
 using UnityEngine;
 
@@ -11,9 +12,9 @@ public class ScrollingWordGrid : MonoBehaviour
   [SerializeField] GameObject PlayerCharacter;
   Transform playerTransform;
   List<List<GameObject>> tileMapChunks;
+  [SerializeField] CinemachineVirtualCamera cmCam;
   const int TILE_SIZE = 32;
-  const int CAMERA_FOV = 10;
-  const int MAP_LOAD_LOOKAHEAD = 2;
+  private float mapLoadLookAhead = 2;
   const float timeToUpdate = 1;
   private float currTime = 1;
   void Awake()
@@ -28,6 +29,8 @@ public class ScrollingWordGrid : MonoBehaviour
         tileMapChunks[i].Add(transform.GetChild(i * 3 + j).gameObject);
       }
     }
+    var cameraOrthoSize = cmCam.m_Lens.OrthographicSize;
+    mapLoadLookAhead = cameraOrthoSize * 3f;
   }
   // Start is called before the first frame update
   void Start()
@@ -56,21 +59,21 @@ public class ScrollingWordGrid : MonoBehaviour
     Vector3 currGridPosition = GetGridPosition(playerTransform.position);
     // can be optimized by getting direction an using the only directions, also can use for loops.
     Vector3 lookAheadUpGridPos = GetGridPosition(new(playerTransform.position.x,
-      playerTransform.position.y + CAMERA_FOV + MAP_LOAD_LOOKAHEAD));
+      playerTransform.position.y + mapLoadLookAhead));
     Vector3 lookAheadDownGridPos = GetGridPosition(new(playerTransform.position.x,
-      playerTransform.position.y - CAMERA_FOV - MAP_LOAD_LOOKAHEAD));
-    Vector3 lookAheadLeftGridPos = GetGridPosition(new(playerTransform.position.x - CAMERA_FOV - MAP_LOAD_LOOKAHEAD,
+      playerTransform.position.y - mapLoadLookAhead));
+    Vector3 lookAheadLeftGridPos = GetGridPosition(new(playerTransform.position.x - mapLoadLookAhead,
       playerTransform.position.y));
-    Vector3 lookAheadRightGridPos = GetGridPosition(new(playerTransform.position.x + CAMERA_FOV + MAP_LOAD_LOOKAHEAD,
+    Vector3 lookAheadRightGridPos = GetGridPosition(new(playerTransform.position.x + mapLoadLookAhead,
       playerTransform.position.y));
-    Vector3 lookAheadUpRight = GetGridPosition(new(playerTransform.position.x + CAMERA_FOV + MAP_LOAD_LOOKAHEAD,
-      playerTransform.position.y + CAMERA_FOV + MAP_LOAD_LOOKAHEAD));
-    Vector3 lookAheadDownRight = GetGridPosition(new(playerTransform.position.x + CAMERA_FOV + MAP_LOAD_LOOKAHEAD,
-      playerTransform.position.y - CAMERA_FOV - MAP_LOAD_LOOKAHEAD)); ;
-    Vector3 lookAheadUpLeft = GetGridPosition(new(playerTransform.position.x - CAMERA_FOV - MAP_LOAD_LOOKAHEAD,
-      playerTransform.position.y + CAMERA_FOV + MAP_LOAD_LOOKAHEAD)); ;
-    Vector3 lookAheadDownLeft = GetGridPosition(new(playerTransform.position.x - CAMERA_FOV - MAP_LOAD_LOOKAHEAD,
-      playerTransform.position.y - CAMERA_FOV - MAP_LOAD_LOOKAHEAD)); ;
+    Vector3 lookAheadUpRight = GetGridPosition(new(playerTransform.position.x + mapLoadLookAhead,
+      playerTransform.position.y + mapLoadLookAhead));
+    Vector3 lookAheadDownRight = GetGridPosition(new(playerTransform.position.x + mapLoadLookAhead,
+      playerTransform.position.y - mapLoadLookAhead)); ;
+    Vector3 lookAheadUpLeft = GetGridPosition(new(playerTransform.position.x - mapLoadLookAhead,
+      playerTransform.position.y + mapLoadLookAhead)); ;
+    Vector3 lookAheadDownLeft = GetGridPosition(new(playerTransform.position.x - mapLoadLookAhead,
+      playerTransform.position.y - mapLoadLookAhead)); ;
 
     if (currGridPosition != lookAheadUpGridPos)
     {

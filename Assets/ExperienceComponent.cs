@@ -9,7 +9,7 @@ public class ExperienceComponent : MonoBehaviour
   [SerializeField] float speed = 6f; // velocity multiplier
   private Transform target = null;
   private Rigidbody2D rb2d;
-  private float collectTimer = 0.5f;
+  private float collectTimer = 0.3f;
   private BoxCollider2D boxCollider2D;
   void Awake()
   {
@@ -23,7 +23,7 @@ public class ExperienceComponent : MonoBehaviour
     if (target != null)
     {
       Vector3 direction = (target.position - transform.position).normalized;
-      rb2d.velocity = direction * value * speed;
+      rb2d.velocity = speed * direction;
     }
     collectTimer -= Time.deltaTime;
     if (collectTimer < 0)

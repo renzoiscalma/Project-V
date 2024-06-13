@@ -42,6 +42,10 @@ public class PlayerExpComponent : MonoBehaviour
     {
       return (level * 10) - 5;
     }
-    return (level * 13) - 6;
+    if (level < 30)
+    {
+      return (level * 30) - 3;
+    }
+    return (level * 60) - 6;
   }
 }
